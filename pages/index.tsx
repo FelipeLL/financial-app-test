@@ -1,17 +1,23 @@
+import { useRouter } from 'next/router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Home() {
+  const router = useRouter();
+
   const cards = [
     {
+      href: '/transactions',
       title: 'Sistema de gestión de ingresos y gastos',
       content: 'Accede y administra tus ingresos y gastos de manera eficiente.',
     },
     {
+      href: '/users',
       title: 'Gestión de usuarios',
       content:
         'Administra los usuarios de la plataforma, controlando el acceso a las funcionalidades.',
     },
     {
+      href: '/reports',
       title: 'Reportes',
       content:
         'Visualiza y descarga reportes financieros detallados sobre ingresos y gastos.',
@@ -23,6 +29,7 @@ export default function Home() {
         <Card
           key={index}
           className='w-1/4 h-52 shadow-lg transition-transform duration-200 hover:scale-105 hover:shadow-xl rounded-lg cursor-pointer'
+          onClick={() => router.push(card.href)}
         >
           <CardHeader>
             <CardTitle className='text-center text-lg font-semibold text-gray-800'>
