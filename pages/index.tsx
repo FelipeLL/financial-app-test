@@ -1,11 +1,5 @@
-import MainContent from '@/components/home/main-content';
-import Sidebar from '@/components/home/sidebar';
+import MainContent from '@/components/home';
 
 export default function Home() {
-  return (
-    <div className='flex h-screen'>
-      <Sidebar />
-      <MainContent />
-    </div>
-  );
+  return <MainContent />;
 }

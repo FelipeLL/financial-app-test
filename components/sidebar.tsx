@@ -4,6 +4,10 @@ import { FC } from 'react';
 const Sidebar: FC = () => {
   const routes = [
     {
+      label: 'Inicio',
+      href: '/',
+    },
+    {
       label: 'Ingresos y egresos',
       href: '/transactions',
     },
@@ -18,7 +22,7 @@ const Sidebar: FC = () => {
   ];
 
   return (
-    <aside className='h-full w-64 bg-gray-800 text-white p-4 flex flex-col items-center shadow-lg'>
+    <aside className='h-full w-96 bg-gray-800 text-white p-4 flex flex-col items-center shadow-lg'>
       <div className='mb-8'>
         <h1 className='text-2xl font-bold'>FINANCE APP</h1>
       </div>

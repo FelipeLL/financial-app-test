@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
-const MainContent: FC = () => {
+const Home: FC = () => {
   const cards = [
     {
       title: 'Sistema de gestión de ingresos y gastos',
@@ -19,7 +19,7 @@ const MainContent: FC = () => {
     },
   ];
   return (
-    <main className='flex-1 flex justify-around items-center p-8 bg-gray-50'>
+    <div className='flex justify-around items-center p-8 h-full'>
       {cards.map((card, index) => (
         <Card
           key={index}
@@ -35,8 +35,8 @@ const MainContent: FC = () => {
           </CardContent>
         </Card>
       ))}
-    </main>
+    </div>
   );
 };
 
-export default MainContent;
+export default Home;
