@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import Link from 'next/link';
 
 export default function Transactions() {
   return (
@@ -18,9 +19,11 @@ export default function Transactions() {
 
       <div className='flex justify-between items-center mb-4'>
         <h2 className='text-lg font-semibold'>Ingresos y egresos</h2>
-        <Button size='lg' variant='outline'>
-          Nuevo
-        </Button>
+        <Link href='/transactions/create'>
+          <Button size='lg' variant='outline'>
+            Nuevo
+          </Button>
+        </Link>
       </div>
 
       <Table className='min-w-full table-auto bg-gray-200'>
