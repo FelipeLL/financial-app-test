@@ -9,6 +9,7 @@ export interface AddUser {
 
 export interface EditUser {
   id: string;
+  name: string;
   role: Role;
 }
 

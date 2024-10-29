@@ -12,6 +12,16 @@ export const GET_USERS = gql`
   }
 `;
 
+export const GET_USER_BY_ID = gql`
+  query User($id: ID!) {
+    user(id: $id) {
+      id
+      name
+      role
+    }
+  }
+`;
+
 export const GET_TRANSACTIONS = gql`
   query Transactions {
     transactions {

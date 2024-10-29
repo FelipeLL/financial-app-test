@@ -11,3 +11,7 @@ export interface User {
 export interface UsersData {
   users: User[];
 }
+
+export interface UserData {
+  user: User;
+}

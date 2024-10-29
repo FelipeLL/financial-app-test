@@ -8,13 +8,14 @@ import { AddTransaction, AddUser, EditUser } from '@/interfaces/graphql';
 
 const typeDefs = gql`
   type Query {
+    user(id: ID!): User
     users: [User!]!
     transactions: [Transaction!]!
   }
 
   type Mutation {
     addUser(name: String!, email: String!, phone: String, role: Role!): User
-    editUser(id: ID!, role: Role!): User
+    editUser(id: ID!, name: String, role: Role!): User
     addTransaction(
       amount: Float!
       details: String!
@@ -56,6 +57,9 @@ const users = [{ name: 'Foo Bar', username: 'foobar' }];
 
 const resolvers = {
   Query: {
+    user: async (_: any, { id }: { id: string }) => {
+      return await prisma.user.findUnique({ where: { id } });
+    },
     users: async () => await prisma.user.findMany(),
     transactions: async () =>
       await prisma.transaction.findMany({ include: { user: true } }),
@@ -76,11 +80,11 @@ const resolvers = {
         throw new Error('ERROR ADDING USER');
       }
     },
-    editUser: async (_: any, { id, role }: EditUser) => {
+    editUser: async (_: any, { id, name, role }: EditUser) => {
       try {
         return await prisma.user.update({
           where: { id },
-          data: { role },
+          data: { name, role },
         });
       } catch (error) {
         console.error('[ERROR EDITING USER]: ', error);
