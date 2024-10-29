@@ -1,6 +1,11 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Edit } from 'lucide-react';
+import { useQuery } from '@apollo/client';
+
+import { GET_USERS } from '@/graphql/apollo-client/queries';
+import { UsersData } from '@/interfaces/user';
+
 import {
   Table,
   TableBody,
@@ -20,20 +25,10 @@ import {
 export default function UsersPage() {
   const router = useRouter();
 
-  const mockUsers = [
-    {
-      id: 1,
-      name: 'Danilo Parra',
-      email: 'danilo@example.com',
-      phone: '3002768512',
-    },
-    {
-      id: 2,
-      name: 'Daniela Gonzales',
-      email: 'daniela@example.com',
-      phone: '3112768519',
-    },
-  ];
+  const { loading, error: apolloError, data } = useQuery<UsersData>(GET_USERS);
+
+  if (loading) return <p>Cargando...</p>;
+  if (apolloError) return <p>Error : {apolloError.message}</p>;
 
   return (
     <div className='h-full p-6 '>
@@ -61,7 +56,7 @@ export default function UsersPage() {
         </TableHeader>
         <TableBody>
           {/* TODO: Mapear datos reales */}
-          {mockUsers.map((user) => (
+          {data?.users.map((user) => (
             <TableRow key={user.id}>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
