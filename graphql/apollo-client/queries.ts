@@ -11,3 +11,17 @@ export const GET_USERS = gql`
     }
   }
 `;
+
+export const GET_TRANSACTIONS = gql`
+  query Transactions {
+    transactions {
+      id
+      amount
+      date
+      details
+      user {
+        name
+      }
+    }
+  }
+`;

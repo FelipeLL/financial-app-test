@@ -1,4 +1,11 @@
 import Link from 'next/link';
+import { useQuery } from '@apollo/client';
+
+import { GET_TRANSACTIONS } from '@/graphql/apollo-client/queries';
+import { TransactionsData } from '@/interfaces/transaction';
+import { Button } from '@/components/ui/button';
+import { formatDate } from '@/lib/format-date';
+
 import {
   Table,
   TableBody,
@@ -7,9 +14,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
 
 export default function TransactionsPage() {
+  const {
+    loading,
+    error: apolloError,
+    data,
+  } = useQuery<TransactionsData>(GET_TRANSACTIONS);
+
+  if (loading) return <p>Cargando...</p>;
+  if (apolloError) return <p>Error : {apolloError.message}</p>;
+
   return (
     <div className='h-full p-6 '>
       <h1 className='text-2xl font-bold mb-4'>
@@ -35,20 +50,14 @@ export default function TransactionsPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {/* TODO: Mapear datos reales */}
-          <TableRow>
-            <TableCell>Concepto de Ejemplo</TableCell>
-            <TableCell>$1000</TableCell>
-            <TableCell>2024-10-28</TableCell>
-            <TableCell>Usuario1</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Otro Concepto</TableCell>
-            <TableCell>$1500</TableCell>
-            <TableCell>2024-10-28</TableCell>
-            <TableCell>Usuario2</TableCell>
-          </TableRow>
-          {/* Fin de datos de ejemplo */}
+          {data?.transactions.map((transaction) => (
+            <TableRow key={transaction.id}>
+              <TableCell>{transaction.details}</TableCell>
+              <TableCell>${transaction.amount}</TableCell>
+              <TableCell>{formatDate(transaction.date)}</TableCell>
+              <TableCell>{transaction.user.name}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
 

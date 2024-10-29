@@ -95,7 +95,7 @@ const resolvers = {
         return await prisma.transaction.create({
           data: {
             amount,
-            date,
+            date: new Date(date),
             details,
             type,
             userId,
