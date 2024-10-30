@@ -66,6 +66,7 @@ export default function UsersPage() {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger
+                      data-testid={`edit-${user.id}`}
                       onClick={() => router.push(`/users/${user.id}`)}
                     >
                       <Edit />
