@@ -1,6 +1,11 @@
 /**
+ * An array of routes that are used for administration
+ * @type {string[]}
+ */
+export const adminRoutes: string[] = ['/users', '/reports'];
+
+/**
  * An array of routes that are used for authentication
- * These routes will redirect logged in users to /settings
  * @type {string[]}
  */
 export const authRoutes: string[] = ['/login'];

@@ -17,8 +17,7 @@ import { cn } from '@/lib/utils';
 
 const Sidebar: FC = () => {
   const router = useRouter();
-  const user = useCurrentUser();
-  const isLoggedIn = !!user;
+  const { isAdmin, isLoggedIn } = useCurrentUser();
 
   const [loading, setLoading] = useState(false);
 
@@ -27,21 +26,25 @@ const Sidebar: FC = () => {
       label: 'Inicio',
       href: '/',
       icon: Home,
+      adminOnly: false,
     },
     {
       label: 'Ingresos y egresos',
       href: '/transactions',
       icon: DollarSign,
+      adminOnly: false,
     },
     {
       label: 'Usuarios',
       href: '/users',
       icon: Users,
+      adminOnly: true,
     },
     {
       label: 'Reportes',
       href: '/reports',
       icon: BarChart,
+      adminOnly: true,
     },
   ];
 
@@ -66,26 +69,28 @@ const Sidebar: FC = () => {
       <nav className='w-full'>
         {isLoggedIn && (
           <>
-            {routes.map((route, index) => {
-              const Icon = route.icon;
-              return (
-                <Link
-                  key={index}
-                  href={route.href}
-                  className={cn(
-                    'block w-full p-3 mb-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md',
-                    {
-                      'bg-gray-500': router.pathname === route.href,
-                    }
-                  )}
-                >
-                  <div className='flex gap-4'>
-                    <Icon />
-                    <p>{route.label}</p>
-                  </div>
-                </Link>
-              );
-            })}
+            {routes
+              .filter((route) => !route.adminOnly || isAdmin)
+              .map((route, index) => {
+                const Icon = route.icon;
+                return (
+                  <Link
+                    key={index}
+                    href={route.href}
+                    className={cn(
+                      'block w-full p-3 mb-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md',
+                      {
+                        'bg-gray-500': router.pathname === route.href,
+                      }
+                    )}
+                  >
+                    <div className='flex gap-4'>
+                      <Icon />
+                      <p>{route.label}</p>
+                    </div>
+                  </Link>
+                );
+              })}
           </>
         )}
       </nav>
