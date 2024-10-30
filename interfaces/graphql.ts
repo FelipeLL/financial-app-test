@@ -20,3 +20,8 @@ export interface AddTransaction {
   type: TransactionType;
   userId: string;
 }
+
+export interface GraphQLContext {
+  userId: string;
+  role: Role;
+}

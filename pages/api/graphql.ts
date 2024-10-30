@@ -1,117 +1,10 @@
 import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { gql } from 'graphql-tag';
+import { getToken } from 'next-auth/jwt';
 
-import prisma from '@/prisma/prisma.client';
-import { AddTransaction, AddUser, EditUser } from '@/interfaces/graphql';
-
-const typeDefs = gql`
-  type Query {
-    user(id: ID!): User
-    users: [User!]!
-    transactions: [Transaction!]!
-  }
-
-  type Mutation {
-    addUser(name: String!, email: String!, phone: String, role: Role!): User
-    editUser(id: ID!, name: String, role: Role!): User
-    addTransaction(
-      amount: Float!
-      details: String!
-      date: String!
-      type: TransactionType!
-      userId: ID!
-    ): Transaction
-  }
-
-  type User {
-    id: ID!
-    name: String!
-    email: String!
-    phone: String
-    role: Role!
-  }
-
-  type Transaction {
-    id: ID!
-    amount: Float!
-    date: String!
-    details: String!
-    type: TransactionType!
-    user: User!
-  }
-
-  enum Role {
-    USER
-    ADMIN
-  }
-
-  enum TransactionType {
-    INCOME
-    EXPENSE
-  }
-`;
-
-const users = [{ name: 'Foo Bar', username: 'foobar' }];
-
-const resolvers = {
-  Query: {
-    user: async (_: any, { id }: { id: string }) => {
-      return await prisma.user.findUnique({ where: { id } });
-    },
-    users: async () => await prisma.user.findMany(),
-    transactions: async () =>
-      await prisma.transaction.findMany({ include: { user: true } }),
-  },
-  Mutation: {
-    addUser: async (_: any, { name, email, phone, role }: AddUser) => {
-      try {
-        return await prisma.user.create({
-          data: {
-            name,
-            email,
-            phone,
-            role,
-          },
-        });
-      } catch (error) {
-        console.error('[ERROR ADDING USER]: ', error);
-        throw new Error('ERROR ADDING USER');
-      }
-    },
-    editUser: async (_: any, { id, name, role }: EditUser) => {
-      try {
-        return await prisma.user.update({
-          where: { id },
-          data: { name, role },
-        });
-      } catch (error) {
-        console.error('[ERROR EDITING USER]: ', error);
-        throw new Error('ERROR EDITING USER');
-      }
-    },
-    addTransaction: async (
-      _: any,
-      { amount, date, details, type, userId }: AddTransaction
-    ) => {
-      try {
-        return await prisma.transaction.create({
-          data: {
-            amount,
-            date: new Date(date),
-            details,
-            type,
-            userId,
-          },
-        });
-      } catch (error) {
-        console.error('[ERROR ADDING TRANSACTION]: ', error);
-        throw new Error('ERROR ADDING TRANSACTION');
-      }
-    },
-  },
-};
+import { resolvers } from '@/graphql/resolvers';
+import { typeDefs } from '@/graphql/typedefs';
 
 export const schema = makeExecutableSchema({ typeDefs, resolvers });
 
@@ -119,4 +12,13 @@ const server = new ApolloServer({
   schema,
 });
 
-export default startServerAndCreateNextHandler(server);
+export default startServerAndCreateNextHandler(server, {
+  context: async (req) => {
+    const token = await getToken({
+      req: req as any,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+
+    return { userId: token?.sub, role: token?.role };
+  },
+});
