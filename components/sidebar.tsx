@@ -1,12 +1,26 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Home, DollarSign, Users, BarChart, LogOut } from 'lucide-react';
+import {
+  Home,
+  DollarSign,
+  Users,
+  BarChart,
+  LogOut,
+  LogIn,
+  Loader,
+} from 'lucide-react';
+import { signIn, signOut } from 'next-auth/react';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 import { cn } from '@/lib/utils';
 
 const Sidebar: FC = () => {
   const router = useRouter();
+  const user = useCurrentUser();
+  const isLoggedIn = !!user;
+
+  const [loading, setLoading] = useState(false);
 
   const routes = [
     {
@@ -30,6 +44,18 @@ const Sidebar: FC = () => {
       icon: BarChart,
     },
   ];
+
+  const handleSignIn = async () => {
+    setLoading(true);
+    await signIn('auth0');
+    setLoading(false);
+  };
+
+  const handleSignOut = async () => {
+    setLoading(true);
+    await signOut();
+    setLoading(false);
+  };
 
   return (
     <aside className='h-full w-96 bg-gray-800 text-white p-4 flex flex-col items-center shadow-lg'>
@@ -62,8 +88,28 @@ const Sidebar: FC = () => {
 
       <div className='block w-full mt-auto  p-3 mb-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md cursor-pointer'>
         <div className='flex justify-center gap-2'>
-          <LogOut />
-          <p>Cerrar sesión</p>
+          <>
+            {loading ? (
+              <>
+                <Loader />
+                <p>Cargando...</p>
+              </>
+            ) : (
+              <>
+                {isLoggedIn ? (
+                  <>
+                    <LogOut />
+                    <button onClick={handleSignOut}>Cerrar sesión</button>
+                  </>
+                ) : (
+                  <>
+                    <LogIn />
+                    <button onClick={handleSignIn}>Iniciar sesión</button>
+                  </>
+                )}
+              </>
+            )}
+          </>
         </div>
       </div>
     </aside>
