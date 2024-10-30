@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { createTransactionSchema } from '@/schemas/transactions';
 import { ADD_TRANSACTION } from '@/graphql/apollo-client/mutations';
 import { TransactionType } from '@prisma/client';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -31,6 +32,7 @@ type TransactionFormData = z.infer<typeof createTransactionSchema>;
 
 const CreateTransactionPage: React.FC = () => {
   const router = useRouter();
+  const { user } = useCurrentUser();
 
   const [addTransaction] = useMutation(ADD_TRANSACTION);
 
@@ -45,16 +47,20 @@ const CreateTransactionPage: React.FC = () => {
 
   const onSubmit = async (data: TransactionFormData) => {
     try {
-      /* await addTransaction({
+      if (!user?.id) {
+        throw new Error('No se ha encontrado un usuario');
+      }
+
+      await addTransaction({
         variables: {
           amount: data.amount,
           details: data.details,
           date: data.date,
           type: data.type,
-          userId: 'cm2t7pjk40000potsa1vldcwu', // TODO: Get the user ID from the session
+          userId: user.id,
         },
-      }); */
-      // router.push('/transactions');
+      });
+      router.push('/transactions');
     } catch (error) {
       console.error('[ERROR ADDING TRANSACTION]: ', error);
     }

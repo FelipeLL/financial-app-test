@@ -32,6 +32,10 @@ export default {
         session.user.role = token.role;
       }
 
+      if (token.sub) {
+        session.user.id = token.sub;
+      }
+
       return session;
     },
     async jwt({ token }) {
