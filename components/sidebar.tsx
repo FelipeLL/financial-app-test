@@ -73,6 +73,10 @@ const Sidebar: FC = () => {
               .filter((route) => !route.adminOnly || isAdmin)
               .map((route, index) => {
                 const Icon = route.icon;
+                const isActive =
+                  route.href === '/'
+                    ? router.pathname === '/'
+                    : router.pathname.startsWith(route.href);
                 return (
                   <Link
                     key={index}
@@ -80,7 +84,7 @@ const Sidebar: FC = () => {
                     className={cn(
                       'block w-full p-3 mb-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md',
                       {
-                        'bg-gray-500': router.pathname === route.href,
+                        'bg-gray-500': isActive,
                       }
                     )}
                   >
