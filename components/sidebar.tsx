@@ -64,26 +64,30 @@ const Sidebar: FC = () => {
       </div>
 
       <nav className='w-full'>
-        {routes.map((route, index) => {
-          const Icon = route.icon;
-          return (
-            <Link
-              key={index}
-              href={route.href}
-              className={cn(
-                'block w-full p-3 mb-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md',
-                {
-                  'bg-gray-500': router.pathname === route.href,
-                }
-              )}
-            >
-              <div className='flex gap-4'>
-                <Icon />
-                <p>{route.label}</p>
-              </div>
-            </Link>
-          );
-        })}
+        {isLoggedIn && (
+          <>
+            {routes.map((route, index) => {
+              const Icon = route.icon;
+              return (
+                <Link
+                  key={index}
+                  href={route.href}
+                  className={cn(
+                    'block w-full p-3 mb-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md',
+                    {
+                      'bg-gray-500': router.pathname === route.href,
+                    }
+                  )}
+                >
+                  <div className='flex gap-4'>
+                    <Icon />
+                    <p>{route.label}</p>
+                  </div>
+                </Link>
+              );
+            })}
+          </>
+        )}
       </nav>
 
       <div className='block w-full mt-auto  p-3 mb-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md cursor-pointer'>
