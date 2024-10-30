@@ -21,7 +21,12 @@ export default function Login() {
         <p className='mt-2 text-gray-600'>
           Inicia sesión aquí para acceder a tu cuenta.
         </p>
-        <Button className='mt-4' size='lg' onClick={handleSignIn}>
+        <Button
+          disabled={loading}
+          className='mt-4'
+          size='lg'
+          onClick={handleSignIn}
+        >
           {loading ? (
             <>
               <Loader />

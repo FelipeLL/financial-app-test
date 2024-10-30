@@ -29,6 +29,7 @@ import {
   SelectValue,
   SelectItem,
 } from '@/components/ui/select';
+import Loader from '@/components/loader';
 
 type UserFormData = z.infer<typeof editUserSchema>;
 
@@ -78,7 +79,7 @@ const EditUserPage: React.FC = () => {
     }
   }, [data, form.reset]);
 
-  if (loading) return <p>Cargando...</p>;
+  if (loading) return <Loader />;
   if (apolloError) return <p>Error : {apolloError.message}</p>;
 
   return (

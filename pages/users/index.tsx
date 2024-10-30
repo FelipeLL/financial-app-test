@@ -21,13 +21,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@radix-ui/react-tooltip';
+import Loader from '@/components/loader';
 
 export default function UsersPage() {
   const router = useRouter();
 
   const { loading, error: apolloError, data } = useQuery<UsersData>(GET_USERS);
 
-  if (loading) return <p>Cargando...</p>;
+  if (loading) return <Loader />;
   if (apolloError) return <p>Error : {apolloError.message}</p>;
 
   return (

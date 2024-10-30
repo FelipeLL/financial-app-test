@@ -82,7 +82,7 @@ const Sidebar: FC = () => {
                     key={index}
                     href={route.href}
                     className={cn(
-                      'block w-full p-3 mb-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md',
+                      'block w-full p-3 mb-4 gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md',
                       {
                         'bg-gray-500': isActive,
                       }

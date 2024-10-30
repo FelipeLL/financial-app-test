@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import Loader from '@/components/loader';
 
 export default function TransactionsPage() {
   const {
@@ -22,7 +23,7 @@ export default function TransactionsPage() {
     data,
   } = useQuery<TransactionsData>(GET_TRANSACTIONS);
 
-  if (loading) return <p>Cargando...</p>;
+  if (loading) return <Loader />;
   if (apolloError) return <p>Error : {apolloError.message}</p>;
 
   return (
