@@ -36,6 +36,15 @@ export default function Login() {
             'Iniciar sesión'
           )}
         </Button>
+        <p className='mt-4 text-sm text-gray-500'>
+          ¿Aún no tienes cuenta?{' '}
+          <span
+            onClick={handleSignIn}
+            className='text-blue-500 hover:underline cursor-pointer'
+          >
+            Créala aquí
+          </span>
+        </p>
       </div>
     </div>
   );
