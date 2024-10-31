@@ -17,7 +17,14 @@ export default startServerAndCreateNextHandler(server, {
     const token = await getToken({
       req: req as any,
       secret: process.env.NEXTAUTH_SECRET,
+      cookieName:
+        process.env.NODE_ENV === 'production'
+          ? '__Secure-next-auth.session-token'
+          : 'next-auth.session-token',
+      secureCookie: true,
     });
+
+    console.log(token);
 
     return { userId: token?.sub, role: token?.role };
   },
