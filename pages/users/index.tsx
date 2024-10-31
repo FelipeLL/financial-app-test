@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Edit } from 'lucide-react';
 import { useQuery } from '@apollo/client';
@@ -14,7 +13,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,

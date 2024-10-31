@@ -77,7 +77,7 @@ const EditUserPage: React.FC = () => {
         role: data.user.role,
       });
     }
-  }, [data, form.reset]);
+  }, [data, form]);
 
   if (loading) return <Loader />;
   if (apolloError) return <p>Error : {apolloError.message}</p>;
