@@ -60,6 +60,57 @@ const Sidebar: FC = () => {
     setLoading(false);
   };
 
+  const NavItem: FC<{
+    href: string;
+    label: string;
+    icon: FC;
+    isActive: boolean;
+  }> = ({ href, label, icon: Icon, isActive }) => (
+    <Link
+      href={href}
+      className={cn(
+        'block w-full p-3 mb-4 gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md',
+        {
+          'bg-gray-500': isActive,
+        }
+      )}
+    >
+      <div className='flex gap-4'>
+        <Icon />
+        <p>{label}</p>
+      </div>
+    </Link>
+  );
+
+  const AuthButton: FC = () => (
+    <div className='block w-full mt-auto p-3 mb-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md cursor-pointer'>
+      <div className='flex justify-center gap-2'>
+        <>
+          {loading ? (
+            <>
+              <Loader />
+              <p>Cargando...</p>
+            </>
+          ) : (
+            <>
+              {isLoggedIn ? (
+                <>
+                  <LogOut />
+                  <button onClick={handleSignOut}>Cerrar sesión</button>
+                </>
+              ) : (
+                <>
+                  <LogIn />
+                  <button onClick={handleSignIn}>Iniciar sesión</button>
+                </>
+              )}
+            </>
+          )}
+        </>
+      </div>
+    </div>
+  );
+
   return (
     <aside className='h-full w-96 bg-gray-800 text-white p-4 flex flex-col items-center shadow-lg'>
       <div className='mb-8'>
@@ -78,53 +129,19 @@ const Sidebar: FC = () => {
                     ? router.pathname === '/'
                     : router.pathname.startsWith(route.href);
                 return (
-                  <Link
+                  <NavItem
                     key={index}
-                    href={route.href}
-                    className={cn(
-                      'block w-full p-3 mb-4 gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md',
-                      {
-                        'bg-gray-500': isActive,
-                      }
-                    )}
-                  >
-                    <div className='flex gap-4'>
-                      <Icon />
-                      <p>{route.label}</p>
-                    </div>
-                  </Link>
+                    {...route}
+                    icon={Icon}
+                    isActive={isActive}
+                  />
                 );
               })}
           </>
         )}
       </nav>
 
-      <div className='block w-full mt-auto  p-3 mb-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md cursor-pointer'>
-        <div className='flex justify-center gap-2'>
-          <>
-            {loading ? (
-              <>
-                <Loader />
-                <p>Cargando...</p>
-              </>
-            ) : (
-              <>
-                {isLoggedIn ? (
-                  <>
-                    <LogOut />
-                    <button onClick={handleSignOut}>Cerrar sesión</button>
-                  </>
-                ) : (
-                  <>
-                    <LogIn />
-                    <button onClick={handleSignIn}>Iniciar sesión</button>
-                  </>
-                )}
-              </>
-            )}
-          </>
-        </div>
-      </div>
+      <AuthButton />
     </aside>
   );
 };
