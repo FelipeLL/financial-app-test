@@ -8,7 +8,6 @@ import {
 } from '@/interfaces/graphql';
 
 function requireAdminRole(context: GraphQLContext) {
-  console.log(context);
   if (context.role !== Role.ADMIN) {
     throw new Error('Unauthorized');
   }

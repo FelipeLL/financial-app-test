@@ -20,7 +20,9 @@ export default startServerAndCreateNextHandler(server, {
       secureCookie: process.env.NODE_ENV === 'production',
     });
 
-    console.log(token);
+    if (!token) {
+      throw new Error('Unauthorized');
+    }
 
     return { userId: token?.sub, role: token?.role };
   },
