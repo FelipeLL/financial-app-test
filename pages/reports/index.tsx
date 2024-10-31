@@ -14,7 +14,10 @@ import {
 
 import { cn } from '@/lib/utils';
 import { getTotalAmountByType } from '@/lib/transaction';
-import { TransactionsData } from '@/interfaces/transaction';
+import {
+  TransactionsData,
+  TransactionTypeLabel,
+} from '@/interfaces/transaction';
 import { GET_TRANSACTIONS } from '@/graphql/apollo-client/queries';
 
 import TransactionsBarChart from '@/components/reports/charts/bar';
@@ -40,7 +43,27 @@ export default function ReportsPage() {
   } = useQuery<TransactionsData>(GET_TRANSACTIONS);
 
   const downloadCSV = () => {
-    // TODO: Implementar la lógica para descargar el CSV
+    const headers = 'ID,Monto,Fecha,Tipo de transacción, Usuario \n';
+
+    const csvData = data?.transactions.map((transaction) => {
+      const date = new Date(Number(transaction.date)).toLocaleDateString(
+        'es-ES'
+      );
+      return `${transaction.id},${transaction.amount},${date},${
+        TransactionTypeLabel[transaction.type]
+      }, ${transaction.user.name}`;
+    });
+    const csvContent = headers + csvData?.join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.setAttribute('download', 'transactions_report.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const { balance } = useMemo(() => {
@@ -73,7 +96,7 @@ export default function ReportsPage() {
           <TransactionsBarChart transactions={data?.transactions || []} />
         </div>
         <div className='w-1/3 bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center'>
-          <h2 className='text-3xl font-semibold  mb-4'>Saldo</h2>
+          <h2 className='text-3xl font-semibold  mb-4'>Balance</h2>
           <p
             className={cn(
               'text-5xl font-bold mb-6',
