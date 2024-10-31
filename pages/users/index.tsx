@@ -37,13 +37,8 @@ export default function UsersPage() {
         Sistema de gestión de Ingresos y Gastos
       </h1>
 
-      <div className='flex justify-between items-center mb-4'>
+      <div className='mb-4'>
         <h2 className='text-lg font-semibold'>Usuarios</h2>
-        <Link href='/users'>
-          <Button size='lg' variant='outline'>
-            Nuevo
-          </Button>
-        </Link>
       </div>
 
       <Table className='min-w-full table-auto bg-gray-200'>
@@ -56,7 +51,6 @@ export default function UsersPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {/* TODO: Mapear datos reales */}
           {data?.users.map((user) => (
             <TableRow key={user.id}>
               <TableCell>{user.name}</TableCell>
@@ -79,7 +73,6 @@ export default function UsersPage() {
               </TableCell>
             </TableRow>
           ))}
-          {/* Fin de datos de ejemplo */}
         </TableBody>
       </Table>
     </div>

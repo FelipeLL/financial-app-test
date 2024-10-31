@@ -127,23 +127,6 @@ const CreateTransactionPage: React.FC = () => {
                 )}
               />
 
-              {/* <div>
-                <Label htmlFor='date' className='text-gray-700 font-semibold'>
-                  Fecha
-                </Label>
-                <Input
-                  id='date'
-                  type='date'
-                  placeholder='Fecha'
-                  {...register('date')}
-                />
-                {errors.date && (
-                  <p className='text-red-500 text-sm mt-1'>
-                    {errors.date.message}
-                  </p>
-                )}
-              </div> */}
-
               <FormField
                 control={form.control}
                 name='type'
