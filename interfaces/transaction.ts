@@ -3,7 +3,7 @@ import { User } from './user';
 
 export interface Transaction {
   id: string;
-  amount: string;
+  amount: number;
   details: string;
   type: TransactionType;
   date: number;

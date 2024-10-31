@@ -20,6 +20,7 @@ import {
 import Loader from '@/components/loader';
 import { Badge } from '@/components/ui/badge';
 import { TransactionType } from '@prisma/client';
+import { getTotalAmountByType } from '@/lib/transaction';
 
 export default function TransactionsPage() {
   const {
@@ -30,14 +31,6 @@ export default function TransactionsPage() {
 
   if (loading) return <Loader />;
   if (apolloError) return <p>Error : {apolloError.message}</p>;
-
-  function getTotalAmountByType(type: TransactionType) {
-    return data?.transactions.reduce(
-      (acc, transaction) =>
-        transaction.type === type ? acc + parseFloat(transaction.amount) : acc,
-      0
-    );
-  }
 
   return (
     <div className='h-full p-6 '>
@@ -90,12 +83,14 @@ export default function TransactionsPage() {
 
       <div className='flex justify-end mt-4'>
         <div className='px-4 py-2 w-60 bg-gray-200 rounded text-right font-semibold'>
-          Total ingresos: {getTotalAmountByType(TransactionType.INCOME)}
+          Total ingresos:{' '}
+          {data && getTotalAmountByType(data, TransactionType.INCOME)}
         </div>
       </div>
       <div className='flex justify-end mt-4'>
         <div className='px-4 py-2 w-60 bg-gray-200 rounded text-right font-semibold'>
-          Total egresos: {getTotalAmountByType(TransactionType.EXPENSE)}
+          Total egresos:{' '}
+          {data && getTotalAmountByType(data, TransactionType.EXPENSE)}
         </div>
       </div>
     </div>
