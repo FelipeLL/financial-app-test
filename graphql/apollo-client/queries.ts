@@ -29,6 +29,7 @@ export const GET_TRANSACTIONS = gql`
       amount
       date
       details
+      type
       user {
         name
       }
