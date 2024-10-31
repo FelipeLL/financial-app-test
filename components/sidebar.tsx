@@ -83,7 +83,10 @@ const Sidebar: FC = () => {
   );
 
   const AuthButton: FC = () => (
-    <div className='block w-full mt-auto p-3 mb-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md cursor-pointer'>
+    <div
+      onClick={isLoggedIn ? handleSignOut : handleSignIn}
+      className='block w-full mt-auto p-3 mb-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:shadow-md cursor-pointer'
+    >
       <div className='flex justify-center gap-2'>
         <>
           {loading ? (
@@ -96,12 +99,12 @@ const Sidebar: FC = () => {
               {isLoggedIn ? (
                 <>
                   <LogOut />
-                  <button onClick={handleSignOut}>Cerrar sesión</button>
+                  <button>Cerrar sesión</button>
                 </>
               ) : (
                 <>
                   <LogIn />
-                  <button onClick={handleSignIn}>Iniciar sesión</button>
+                  <button>Iniciar sesión</button>
                 </>
               )}
             </>
