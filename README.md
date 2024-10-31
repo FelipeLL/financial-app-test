@@ -4,11 +4,28 @@
 Este proyecto consiste en la implementación de un sistema para la gestión de ingresos y egresos, la gestión de usuarios, y la generación de reportes financieros.
 
 ## Tabla de Contenidos
+- [URL de producción](#url-de-producción)
+- [Credenciales de Acceso](#credenciales-de-acceso)
 - [Configuración del Entorno](#configuración-del-entorno)
 - [Instalación](#instalación)
 - [Migración de Base de Datos](#migración-de-base-de-datos)
 - [Pruebas Unitarias](#pruebas-unitarias)
 - [Despliegue en Vercel](#despliegue-en-vercel)
+
+## URL de producción
+La aplicación desplegada se encuentra disponible en el siguiente enlace:
+
+- **URL de Producción**: [https://financial-app-test.vercel.app/](https://financial-app-test.vercel.app/)
+
+Utiliza esta URL para acceder a la aplicación en el entorno de producción.
+
+## Credenciales de Acceso
+Para acceder a la aplicación con permisos de administrador, utiliza las siguientes credenciales:
+
+- **Correo electrónico**: `account@admin.com`
+- **Contraseña**: `2SBOR1dl.dGtpT0@NHeGl3`
+
+Estas credenciales permiten el acceso a las funcionalidades de administración, incluyendo la gestión de usuarios y reportes financieros.
 
 ## Configuración del Entorno
 ### Prerrequisitos
